@@ -1,0 +1,66 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{scrextend}
+\usepackage{mathtools}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+
+\title{Written 4 - Dynamic Programming}
+\author{Brian Aguirre Parada ba5bx}
+\date{March 27, 2015}
+\renewcommand{\baselinestretch}{1.0}
+\begin{document}
+\maketitle
+\textbf{Problem 1:}\\
+Problem Description: Given a number of doors $n$ and a number of required locked doors $S$, find the number of ways in which $S$ number of doors can be locked.\\
+Inputs: Imagining that the doors are in a row, the total number of doors is given by the input $n$. Also, since the goal is to achieve a certain number of locked doors and a total number of combinates, $S$ is also taken as an input.\\
+Outputs: The total number of ways to achieve $S$ number of locked doors.\\
+Assumptions: All of the numbers are greater or equal to $0$ such that there cannot be a negative number of doors nor a negative amount of ways to lock doors.\\ 
+Strategy: Dynamic programming to calculate solutions to the subproblems within the bigger problem. First by establishing the base cases of the problem in order to achieve the subsequent number of ways to lock $S$ number of doors. \\
+Description: As given in the description of the problem, imagine there is a row of $n$ number of doors. Let $n_i$ be any door within the row. Then for $n_i$ to be considered locked, either $n_i$ is the first door within the row or the door to the left of $n_i$ must be locked. By this condition then if $n_i$ is locked and $n_i$ is not the first door within the row, then $n_{i-1}$ is therefore locked as well. The base cases within this algorithm are the following: for $n=0$ then then for all $S$ values the answer will be $0$. Similarly for all $n$ number of doors greater than or equal to 0, there can only be $1$ possible way to lock the doors $S$ times and $S-1$ times. This is best shown by the following first $S$ possible ways to lock doors for $n$ less than or equal to $5$: NOTE: 0 represents an unlocked door while 1 represents a locked door. The left most number is the first door in the row.
+
+$n=1$:$S=0$ {0}\\
+	$S=1$ 	 {1}\\
+$n=2$:$S=0$	{00, 01}\\
+	$S=1$	{10}\\
+	$S=2$	{11} \\
+$n=3$:$S=0$	{000, 001, 010}\\
+	$S=1$	{011, 100, 101}\\
+	$S=2$	{110} 
+	$S=3${111}\\
+$n=4$:$S=0$	{0000, 0001, 0010, 0100, 0101}\\
+	$S=1$	{1000, 1001, 1010, 0110, 0011}\\
+	$S=2$	{1100, 1101, 0111, 1011}\\
+	$S=3$	{1110}\\
+	$S=4$	{1111}\\
+$n=5$:$S=0$	{00000, 00001, 00010, 00100, 01000, 01001, 01010, 00101}\\
+	$S=1$	{10000, 10001, 10010, 10100, 10101, 01100, 01101, 00011, 01011, 00110}\\
+	$S=2$	{11000, 11001, 11010, 01110, 00111, 10110, 10011}\\
+	$S=3$	{10111, 11011, 11100, 11101, 01111}\\
+	$S=4$	{11110}\\
+	$S=5$	{11111}\\
+Then as the above demonstrates, due to the requirements of the problem, there can only be 1 way in which $S$ number of doors can be locked if $S=n$ and similarly there can only be 1 way for doors to be locked if $S=n-1$. Also note that if you were to consider these $0$'s and $1$'s binary for numbers, then the $n_i$ number of doors within a row contains all of the $n_{i-1}$ sequences in which a door can be locked for all values of $S$ both have in common. So this algorithm therefore places the calculations within an array, which is $n$ by $S$ size. The solution matrix $D$ is then initialized with the base cases for when $n=0$ the whole row then has $0$ as the values. Also for the diagonals in which $n=S$ and $n-1=S$, matrix $D$ is set to 1. The method $numOfWays(n, S)$ takes in as parameters a number of doors within the row and the total number of doors $n$ and a number of required locked doors $S$. The method then visits the solution array $D[n][S]$ in order to see if there is a solution for it already present within the $[n_i][S_i]$ spots (assuming arbitrarily that the inputs have been $n_i$ number of doors and $S_i$ required locked doors). If there isn't an answer within that spot in the solution matrix, then the method $numOfWays(n, S)$ looks at the matrix spot for $n_i - 1$ in order to view the number of solutions and not recalculate those. The method then subtracts the number of solutions based on a the already seen ways to solve $S$ number of locked doors within $n_i - 1$ and adds the remaining ways to it then places it within that matrix spot. \\
+\textbf{Problem 2:}\\
+Problem Description: Suppose you're given a list of integers $A = \{a_1, a_2...a_n\}$ and a target sum $S$ and max number use $K$. Find $K$ or less number of integers within $A$ that sum up to $S$. Note that $S$ and elements of $A$ may be negative. \\
+Inputs: List of integers $A$, target sum $S$ and limit of integers used $K$.\\
+Outputs: Number of integers used in order to add up to $S$.\\
+Assumptions: Integers in set $A$ are unique and randomly out of order. There is a finite number of elements within set $A$, which we know to be $n$ and numbers can be chosen non continuously in order to sum up to $S$. \\ 
+Strategy: Dynamic programming in order to store sums of numbers within an array which will then be referenced to sum up to $S$.\\
+Description: In order to best solve the problem and have a better grasp on the elements within list $A$, the list is sorted at the beginning. If the list of items is small, then insertion sort is used to arrange the elements from smallest to largest, if not, heap sort is used. This will cost about $nlog(n)$ time in the average case. As the items are being sorted, we keep track of two things, first whether any of the items being sorted is equal $S$ itself, if so then return $1$ as the answer since only 1 item needed to be added in order to equal $S$. If not, then we continue sorting and while doing so we keep track of the median of the list of elements $a_i$ as well. Having sorted the items, create an array of $nxn$ which contains the sum of every number with every number. Then we check for the base cases, the first one being if our list contains only positive numbers and the integer $S$ is negative (by seeing the smallest number within the list). Given that case, there doesn't exist any sum which will return a negative integer thus return $0$. Similarly, if the integer is positive and the list only contains negative items, then again, the answer is $0$. Some other bases cases include if $K$, the maximum number of integers that can be used is equal to $n$. If so, add all of the numbers within the list in a linear time cost, and then compare the sum to $S$ as you're adding along. If at some point you've passed the sum and it did not match, then  you can return $0$ as there is no sum equal to it. In the opposite case, if $K=1$, if we did not find a number that was equal to $S$ while sorting, then return $0$ as well. Now, based on the median, and we then place $K$ number of indices throughout the sorted list. One that is the max, one that is a min, and subsequently some that are closer to the median within the list. Starting with the closest indices to the median, add these numbers, and while doing so write them also down in the matrix of additions. If the sum is too large, then move the indices to smaller numbers until it is either too small or equal to it. If it is equal to it, then return 2 as you are just comparing the sum of two numbers. If not, then use a third index (given that $K-3>0$). Move the numbers such that the third index helps balance out the sum while adding it just to the sum stored within the matrix rather than moving the other two indices around again in order to use less time in moving linearly through the list. If the sum of three numbers works, then return $3$, if not, add another index above the median and add the numbers up as you're moving through the list and adding it to the new sum within the array. Continue doing this until either $K-number of indices <0$ or all of the sums have been created and none of them have returned the needed number $S$. \\
+\textbf{Problem 3:}\\
+Problem Description: You're a very cool sibling and want to place as many boxes within boxes as possible in order to make your lame sister waste her time unwrapping boxes rather than enjoying her own birthday party your parents decided to throw for her despite her not deserving it. So the task is to find the maximum number of boxes that will fit within each other and such that the smallest box will also fit the gift. \\
+Inputs: A list of boxes $B$ and each box $b_i$ has its own list of attributes such as $length$, $width$, and $height$. Also, the dimensions of the gift $G$.\\
+Outputs: The most number of boxes that the gift fits within, having it wrapped within boxes of larger sizes. \\
+Assumptions: We know the number of boxes in the list to be $n$. For box $b_j$ to fit in box $b_i$ the dimensions of $b_i$ must be strictly greater than those of $b_j$. Similarly for gift $G$ to fit in $b_i$ the same must be true. All dimensions must also be positive and valid, and the list contains an finite number of unsorted boxes.\\ 
+Strategy: Use dynamic programming in order to solve the sub-problems of each box, meaning calculate how many boxes each box fits into and by way of definition, if the box is bigger than the total sum of boxes that the gift can be wrapped in is $Total(b_i) + 1$. \\
+Description: Assuming that the list is unsorted, then the first thing to do is make a copy of the list, which will contain the volume of the boxes. This is done by first going through the list in linear time and multiplying each box's $length*width*height$ and setting a new attribute: $V$ equal to that product. Then based on how  large the input size $n$ is, we can decide which sorting algorithm to use in order to sort the list. If the input size is small, then we can use insertion sort. This can have a cost time of $nlog(n)$, but the advantage is that in practice, specially if the list is almost sorted, then the run time can be linear: $n$. If the list is larger, we can use heap sort, which will then have a running time of $nlog(n)$. Also, note that running times are worst case unless otherwise specified. 
+
+Once the list is sorted, we start within the smallest box that is larger than the gift itself. Although the volume is larger, the dimensions might not necessarily be larger than the gift, so once retrieving the box $b_1$ from the list, we check so that the $l$, $w$ and $h$ are larger than those of the gift. If so, iterate through the list of volumes until you find the next one. Keep in mind that since rotations are allowed, if the volume is larger, than it is possibly for the box to be rotated and it fit. Then when retrieving the next volume that is larger, we can rotate it by letting the values for box $b_2$ be switched such that $l=w, w=h, w=l$ and once again by $l=h, w=l, h=w$, making sure not to overwrite over the previous measurement. For each box that is found, you then increment the counter and store the number of boxes within a $nxn$ array. Once the most number of boxes that fit are found, return back to the beginning of the list and make the initial box that the gift is wrapped around the second smallest box that is strictly larger than the gift such that the gift can fit comfortably. Iterate through the list and make sure that you rotate when the volume is larger (by a certain delta since you might not want to rotate it since you know volume of 8.1 is greater than 8 but the dimensions are not realistic for the box to fit). While storing these answers within a solutions array, at the end, you will have a count in the bottom right that will store the largest number of boxes that can fit inside each other. The run time for all of this, in order to iterate would be $n^2$ since you're going through the list n times for each box. And the rotation and retrieving values would be a constant $c$. Thus the run time would be in order of: $n^2 + n*log(n) + c$. \\
+\textbf{Problem 4:}\\
+Problem Description: Schedule the most amount of activities in one day that you can within a continuous order such that it takes you the least number of days in order for you to ski $n$ number of runs $R$. If there exists multiple ways to do all of the runs in order, then you do them based on the sequence that make you the most happy.  \\
+Inputs: A list of runs $R$, which are in order of how they should be done. Number of minutes $L$ which then gives you how many minutes were wasted $t$ which can be used to calculate how unhappy you are through $twd(t)$.\\
+Outputs: The total number of dissatisfaction calculated through the given method: $twd(t)$ which returns how unhappy you are based on a certain number of minutes wasted each day.\\
+Assumptions: All time $t$ and $L$ is positive. The runs are in order and they take a positive number of time $t_i$ which includes the time it takes to go up the mountain in the first place. The method $twd(t)$ is a valid function that returns a value for all $t>0$.\\ 
+Strategy: Use dynamic programming with inspiration from the schedule with weights algorithm seen in class in order to minimize the amount of dissatisfaction returned by the function $twd(t)$.\\
+Description: \\
+\end{document}

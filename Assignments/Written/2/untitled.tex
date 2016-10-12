@@ -1,0 +1,50 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{scrextend}
+
+\title{Written 2 - Greedy}
+\author{Brian Aguirre Parada ba5bx}
+\date{February 5, 2015}
+\renewcommand{\baselinestretch}{1.0}
+
+\begin{document}
+\maketitle
+\textbf{Problem 1:}\\
+Problem Description: To maximize the distance covered during a trip by minimizing stops along the way.\\
+Inputs: Distance \(L\), which stands for the total distance to be covered during the trip. A set of stopping points \((x_1,x_2,x_3...,x_n)\).\\ 
+Outputs: In order to track the distance covered per day and whether the sum of the distances traveled is less than or equal to \(L\), let the daily distance traveled be denoted by \(G_i\), where \(i\) stands for the day of the trip, \(i\) $\geq$ \(1\). Then the total distance covered would be:
+\begin{center}
+ \(G_{total}\) = $\sum\limits_{i=1}^n$ \(G_i\) - \(G_{i-1}\)
+\end{center}
+Where \(G_0\) $=$ $0$ miles.\\
+Assumptions: Units are assumed to be in miles. All distances between any two successive points \((x_1,x_2,x_3...,x_n)\) are positive and less than or equal to \(d\). The most one can travel in a day is \(d\) miles and one is able to determine arrival time to the next stopping point perfectly. \\
+Strategy: A greedy algorithm that drives the maximum distance possible (\(d\)) per day.\\
+Description: Since the most one can drive a total distance of \(d\) miles per day, the greedy algorithm makes sure to come as close as possible to that distance. The algorithm goes through the following steps:\\
+
+\begin{addmargin}[1em]{2em}% 1em left, 2em right
+-The algorithm verifies whether the first distance traveled, from \(x_1\) to \(x_2\) is less than or equal to \(d\).\\
+-If the distance from \(x_1\) to \(x_2\) $<$ \(d\), the distance is added to \(G_{total}\) and checks if \(G_{total}\) = \(L\). If that's true, the algorithm stops completely. If it's false, the algorithm checks the next distance from \(x_2\) to \(x_3\) since it hasn't met it's daily limit of \(d\) miles.\\
+-If the sum of \(x_1\) to \(x_2\) and \(x_2\) to \(x_3\) = \(d\). The the distance is added to \(G_{total}\). Then the algorithm checks to see if \(G_{total}\) = \(L\). If that's true, it stops. If it's false, the algorithm continues.\\
+-If the sum of \(x_1\) to \(x_2\) and \(x_2\) to \(x_3\) $<$ \(d\), it computes the next distance. In this case from \(x_3\) to \(x_4\) in order to see whether the new sum is strictly $\leq$ \(d\). Then again checks to see if \(G_{total}\) = \(L\). \\
+-But if the sum of \(x_1\) to \(x_2\) and \(x_2\) to \(x_3\) $>$ \(d\), we consider \(x_2\) the first stopping point since we cannot drive over \(d\) miles.
+-The algorithm repeats the previous steps unless the total distance is met. Note that it's been constructed to check whether the sum is equal to \(L\), in order to not go over the overall required distance to be traveled. The algorithm also verifies whether the daily distance covered is $\leq$ \(d\)\\
+-This greedy approach continues to try to cover as much distance as possible, without going over \(d\) miles per day, and checking if \(G_{total}\) = \(L\) each time a new distance is added.\\
+\end{addmargin}
+
+\textbf{Problem 2:}\\
+Proof:\\
+
+\textbf{Problem 3:}\\
+Problem Description: Find the best path from the starting node (C-Vile) \(s\) to the end node (Montreal) \(t\).\\
+Inputs: \\ 
+Outputs:\\
+Assumptions: \\
+Strategy: \\
+Description:\\
+\textbf{Problem 4:}\\
+Proof:\\
+\textbf{Problem 5:}\\
+
+
+
+\end{document}

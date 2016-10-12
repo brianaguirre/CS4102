@@ -1,0 +1,41 @@
+\title{•}
+\author{
+	Brian Aguirre \\
+    ba5bx\\
+    CS4102\\
+    Homework 1 - LaTex Tutorial 
+}
+\date{\today}
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+
+\begin{document}
+\maketitle
+
+\paragraph{Problem 1 [5]}
+\begin{align}
+	\frac{n!}{r!(n - r)!} &=
+	\frac{(n -1)!}{r!(n - 1 - r)!} + \frac{(n - 1)!}{(r - 1)!((n - 1) - (r - 1))!}\notag\\
+	&= \frac{(n-1)!}{r!(n - 1 - r)!} + \frac{(n - 1)!}{(r - 1)!(n - r)!}\notag\\
+	&= \ldots\notag\\
+	&= \frac{(n - r + r)(n - 1)!}{r(r - 1)!(n - 1)(n - r - 1)!}\notag\\
+	&= \frac{(n)(n - 1)!}{r(r - 1)!(n - r)(n - r - 1)!}\notag\\
+	&= \frac{n!}{r!(n - r)!}\notag\\
+\end{align}
+
+\paragraph{Problem 2 [5]}
+\begin{align}
+	\varphi = \exists_{x} :\forall_{y} &: y \in x\notag\\
+	\forall_{x}(x \neq \emptyset \rightarrow \exists_{y} &\in x(y \cap x = \emptyset))\notag\\
+	\exists_{x}(x \neq \emptyset \rightarrow \forall_{y} &\in x(y \cap x \neq \emptyset))\notag\\
+	\exists_{y} \in x(y &\cap x \neq \emptyset)\notag\\
+	\{y \cap x = \emptyset, y &\cap x \neq \emptyset\} \vdash \phi\notag\\
+\end{align}
+
+\paragraph{Problem 3 [5]}
+\begin{align}
+	T(n) = \Bigg[ T\frac{n}{2^i} + \sum_{k=0}^{i-1} \bigg( \log_{2}\frac{n}{2^k}\bigg)\Bigg] + 1\notag\\
+\end{align}
+
+\end{document}
+This is never printed
